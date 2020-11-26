@@ -10,7 +10,7 @@ const output=document.querySelector('.salary-output-text');
 const name=document.querySelector('#name');
 const nameError=document.querySelector('.name-error');
         name.addEventListener('input', function(){
-            let nameRegex= new RegExp(/^[A-Z][A-Za-z]{2,}$/);
+            let nameRegex= new RegExp(/^[A-Z][a-z]{2,}$/);
             if(nameRegex.test(name.value))
             nameError.textContent="";
             else
@@ -94,5 +94,4 @@ function Reset()
     document.querySelector('#month').value = 'January';
     document.querySelector('#year').value = '2016';
     document.querySelector('#notes').value = '';
-    //reset done
 }
