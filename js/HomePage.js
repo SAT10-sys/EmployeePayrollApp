@@ -1,26 +1,36 @@
+let employeePayrollList;
 //Event listener when HTML page contents are loaded
 window.addEventListener('DOMContentLoaded',(event)=>
     {
+        employeePayrollList = GetEmployeeDataLocalStorage();
+        document.querySelector('.emp-count').textContent = employeePayrollList.length;
         CreateInnerHTML();
     }
 );
+
+//Get data from local storage
+function GetEmployeeDataLocalStorage()
+{
+    return localStorage.getItem('EmployeePayrollList')?
+                    JSON.parse(localStorage.getItem('EmployeePayrollList')):[];
+}
 
 //Insert content to the html table using js
 function CreateInnerHTML()
 {
     const headerHTML = "<tr><th></th><th>Name</th><th>Gender</th><th>Department</th><th>Salary</th><th>Start Date</th><th>Actions</th></tr>"
     let innerHTML = `${headerHTML}`;
-    let employeePayrollList = CreateEmployeePayrollJSON();
+    if(employeePayrollList.length == 0) return;
     for(const employeePayrollData of employeePayrollList)
     {
         innerHTML = `${innerHTML}       
         <tr>
-        <td><img class="profile" alt = "" src="${employeePayrollData._profilePic}"></td>
+        <td><img class="profile" alt = "" src="${employeePayrollData._profilePhoto}"></td>
         <td>${employeePayrollData._name}</td>
         <td>${employeePayrollData._gender}</td>
         <td>${GetDepartment(employeePayrollData._department)}</td>
         <td>${employeePayrollData._salary}</td>
-        <td>${employeePayrollData._startDate}</td>
+        <td>${GetDate(employeePayrollData._startDate)}</td>
         <td>
             <img id="act" name="${employeePayrollData._id}" onclick="remove(this)" alt="delete" src="../assets/icons/delete-black-18dp.svg">
             <img id="act" name="${employeePayrollData._id}" onclick="update(this)" alt="edit" src="../assets/icons/create-black-18dp.svg">
@@ -41,30 +51,10 @@ function GetDepartment(deptList)
     return departments;
 }
 
-//JSON file for Employee Payroll Data
-function CreateEmployeePayrollJSON()
+//Get date in particular format
+function GetDate(startDate)
 {
-    let empPayrollList = [
-        {
-            _name:'James',
-            _gender:'Male',
-            _department:['HR','Sales'],
-            _salary:'450000',
-            _startDate:'11 October 2017',
-            _note:'from foreign',
-            _profilePic:'../assets/profile-images/Ellipse -5.png',
-            _id:new Date().getTime()
-        },
-        {
-            _name:'Kate',
-            _gender:'Female',
-            _department:['Engineer'],
-            _salary:'400000',
-            _startDate:'12 March 2020',
-            _note:'',
-            _profilePic:'../assets/profile-images/Ellipse -1.png',
-            _id:new Date().getTime()
-        }
-    ]
-    return empPayrollList;
+    let month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    let date = new Date(startDate);
+    return date.getDate()+" "+month[date.getMonth()]+" "+date.getFullYear();
 }
