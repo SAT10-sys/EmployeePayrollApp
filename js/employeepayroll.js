@@ -94,4 +94,5 @@ function Reset()
     document.querySelector('#month').value = 'January';
     document.querySelector('#year').value = '2016';
     document.querySelector('#notes').value = '';
+    //reset done
 }
